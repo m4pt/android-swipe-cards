@@ -19,9 +19,9 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable name="product"
-                  type="com.example.android.persistence.model.Product"/>
+                  type="eu.michalbuda.android.swipecards.model.Product"/>
         <variable name="callback"
-                  type="com.example.android.persistence.ui.ProductClickCallback"/>
+                  type="eu.michalbuda.android.swipecards.ui.ProductClickCallback"/>
     </data>
 
     <android.support.v7.widget.CardView

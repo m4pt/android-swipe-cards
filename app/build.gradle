@@ -21,7 +21,7 @@ android {
     buildToolsVersion build_versions.build_tools
 
     defaultConfig {
-        applicationId 'com.example.android.persistence'
+        applicationId 'eu.michalbuda.android.swipecards'
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
         versionCode 1
