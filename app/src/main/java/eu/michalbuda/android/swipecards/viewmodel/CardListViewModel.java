@@ -21,34 +21,33 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 
-import eu.michalbuda.android.swipecards.BasicApp;
-import eu.michalbuda.android.swipecards.db.entity.ProductEntity;
+import eu.michalbuda.android.swipecards.SwipeCardsApp;
+import eu.michalbuda.android.swipecards.db.entity.CardEntity;
 
 import java.util.List;
 
-public class ProductListViewModel extends AndroidViewModel {
+public class CardListViewModel extends AndroidViewModel {
 
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
-    private final MediatorLiveData<List<ProductEntity>> mObservableProducts;
+    private final MediatorLiveData<List<CardEntity>> mObservableCards;
 
-    public ProductListViewModel(Application application) {
+    public CardListViewModel(Application application) {
         super(application);
 
-        mObservableProducts = new MediatorLiveData<>();
+        mObservableCards = new MediatorLiveData<>();
         // set by default null, until we get data from the database.
-        mObservableProducts.setValue(null);
+        mObservableCards.setValue(null);
 
-        LiveData<List<ProductEntity>> products = ((BasicApp) application).getRepository()
-                .getProducts();
+        LiveData<List<CardEntity>> cards = ((SwipeCardsApp) application).getRepository().getCards();
 
-        // observe the changes of the products from the database and forward them
-        mObservableProducts.addSource(products, mObservableProducts::setValue);
+        // observe the changes of the cards from the database and forward them
+        mObservableCards.addSource(cards, mObservableCards::setValue);
     }
 
     /**
-     * Expose the LiveData Products query so the UI can observe it.
+     * Expose the LiveData Cards query so the UI can observe it.
      */
-    public LiveData<List<ProductEntity>> getProducts() {
-        return mObservableProducts;
+    public LiveData<List<CardEntity>> getCards() {
+        return mObservableCards;
     }
 }

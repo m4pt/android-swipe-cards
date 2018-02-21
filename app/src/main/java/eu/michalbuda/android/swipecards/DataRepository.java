@@ -4,29 +4,28 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 
 import eu.michalbuda.android.swipecards.db.AppDatabase;
-import eu.michalbuda.android.swipecards.db.entity.CommentEntity;
-import eu.michalbuda.android.swipecards.db.entity.ProductEntity;
+import eu.michalbuda.android.swipecards.db.entity.CardEntity;
 
 import java.util.List;
 
 /**
- * Repository handling the work with products and comments.
+ * Repository handling the work with cards.
  */
 public class DataRepository {
 
     private static DataRepository sInstance;
 
     private final AppDatabase mDatabase;
-    private MediatorLiveData<List<ProductEntity>> mObservableProducts;
+    private MediatorLiveData<List<CardEntity>> mObservableCards;
 
     private DataRepository(final AppDatabase database) {
         mDatabase = database;
-        mObservableProducts = new MediatorLiveData<>();
+        mObservableCards = new MediatorLiveData<>();
 
-        mObservableProducts.addSource(mDatabase.productDao().loadAllProducts(),
-                productEntities -> {
+        mObservableCards.addSource(mDatabase.cardDao().loadAllCards(),
+                cardEntities -> {
                     if (mDatabase.getDatabaseCreated().getValue() != null) {
-                        mObservableProducts.postValue(productEntities);
+                        mObservableCards.postValue(cardEntities);
                     }
                 });
     }
@@ -43,17 +42,14 @@ public class DataRepository {
     }
 
     /**
-     * Get the list of products from the database and get notified when the data changes.
+     * Get the list of cards from the database and get notified when the data changes.
      */
-    public LiveData<List<ProductEntity>> getProducts() {
-        return mObservableProducts;
+    public LiveData<List<CardEntity>> getCards() {
+        return mObservableCards;
     }
 
-    public LiveData<ProductEntity> loadProduct(final int productId) {
-        return mDatabase.productDao().loadProduct(productId);
+    public LiveData<CardEntity> loadCard(final int cardId) {
+        return mDatabase.cardDao().loadCard(cardId);
     }
 
-    public LiveData<List<CommentEntity>> loadComments(final int productId) {
-        return mDatabase.commentDao().loadComments(productId);
-    }
 }

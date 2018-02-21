@@ -16,8 +16,8 @@
 
 package eu.michalbuda.android.swipecards.ui;
 
-import eu.michalbuda.android.swipecards.model.Comment;
+import eu.michalbuda.android.swipecards.model.Card;
 
-public interface CommentClickCallback {
-    void onClick(Comment comment);
+public interface CardClickCallback {
+    void onClick(Card card);
 }

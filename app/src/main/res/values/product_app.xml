@@ -16,6 +16,7 @@
   -->
 
 <resources>
-    <string name="product_price">Price: $%d</string>
-    <dimen name="product_item_min_height">100dp</dimen>
+
+    <string name="card_guessed">Guessed: %d</string>
+    <dimen name="card_item_min_height">100dp</dimen>
 </resources>

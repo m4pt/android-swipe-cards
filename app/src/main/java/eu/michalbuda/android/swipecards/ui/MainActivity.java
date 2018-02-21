@@ -21,7 +21,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import eu.michalbuda.android.swipecards.R;
-import eu.michalbuda.android.swipecards.model.Product;
+import eu.michalbuda.android.swipecards.model.Card;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -29,24 +29,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        // Add product list fragment if this is first creation
+        // Add card list fragment if this is first creation
         if (savedInstanceState == null) {
-            ProductListFragment fragment = new ProductListFragment();
+            CardListFragment fragment = new CardListFragment();
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, fragment, ProductListFragment.TAG).commit();
+                    .add(R.id.fragment_container, fragment, CardListFragment.TAG).commit();
         }
     }
 
-    /** Shows the product detail fragment */
-    public void show(Product product) {
+    /** Shows the card detail fragment */
+    public void show(Card card) {
 
-        ProductFragment productFragment = ProductFragment.forProduct(product.getId());
+        CardFragment cardFragment = CardFragment.forCard(card.getId());
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .addToBackStack("product")
+                .addToBackStack("card")
                 .replace(R.id.fragment_container,
-                        productFragment, null).commit();
+                        cardFragment, null).commit();
     }
 }

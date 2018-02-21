@@ -14,20 +14,31 @@
  * limitations under the License.
  */
 
-package eu.michalbuda.android.swipecards.db.converter;
+package eu.michalbuda.android.swipecards;
 
-import android.arch.persistence.room.TypeConverter;
+import android.app.Application;
 
-import java.util.Date;
+import eu.michalbuda.android.swipecards.db.AppDatabase;
 
-public class DateConverter {
-    @TypeConverter
-    public static Date toDate(Long timestamp) {
-        return timestamp == null ? null : new Date(timestamp);
+/**
+ * Android Application class. Used for accessing singletons.
+ */
+public class SwipeCardsApp extends Application {
+
+    private AppExecutors mAppExecutors;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        mAppExecutors = new AppExecutors();
     }
 
-    @TypeConverter
-    public static Long toTimestamp(Date date) {
-        return date == null ? null : date.getTime();
+    public AppDatabase getDatabase() {
+        return AppDatabase.getInstance(this, mAppExecutors);
+    }
+
+    public DataRepository getRepository() {
+        return DataRepository.getInstance(getDatabase());
     }
 }

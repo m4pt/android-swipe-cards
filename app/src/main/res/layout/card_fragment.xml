@@ -19,9 +19,16 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+        <import type="android.view.View"/>
+
         <variable
             name="isLoading"
             type="boolean" />
+
+        <variable
+            name="cardViewModel"
+            type="eu.michalbuda.android.swipecards.viewmodel.CardViewModel"/>
     </data>
 
     <LinearLayout
@@ -30,22 +37,11 @@
         android:background="@color/cardview_light_background"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/loading_tv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical|center_horizontal"
-            android:text="@string/loading_cards"
-            android:textAlignment="center"
-            app:visibleGone="@{isLoading}"/>
+        <include
+            layout="@layout/card_item"
+            app:card="@{cardViewModel.card}"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/cards_list"
-            android:contentDescription="@string/cd_cards_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutManager="LinearLayoutManager"
-            app:visibleGone="@{!isLoading}"/>
+
 
     </LinearLayout>
 </layout>

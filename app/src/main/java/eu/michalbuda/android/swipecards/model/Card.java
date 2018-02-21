@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package eu.michalbuda.android.swipecards.ui;
+package eu.michalbuda.android.swipecards.model;
 
-import eu.michalbuda.android.swipecards.model.Product;
-
-public interface ProductClickCallback {
-    void onClick(Product product);
+public interface Card {
+    int getId();
+    String getName();
+    int getGuessed(); // 0 - no views by user, 1 - guessed, 0 - not guessed
 }

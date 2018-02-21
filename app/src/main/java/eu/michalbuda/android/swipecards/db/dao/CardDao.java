@@ -22,21 +22,21 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
-import eu.michalbuda.android.swipecards.db.entity.ProductEntity;
-
 import java.util.List;
 
+import eu.michalbuda.android.swipecards.db.entity.CardEntity;
+
 @Dao
-public interface ProductDao {
-    @Query("SELECT * FROM products")
-    LiveData<List<ProductEntity>> loadAllProducts();
+public interface CardDao {
+    @Query("SELECT * FROM cards")
+    LiveData<List<CardEntity>> loadAllCards();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(List<ProductEntity> products);
+    void insertAll(List<CardEntity> cards);
 
-    @Query("select * from products where id = :productId")
-    LiveData<ProductEntity> loadProduct(int productId);
+    @Query("select * from cards where id = :cardId")
+    LiveData<CardEntity> loadCard(int cardId);
 
-    @Query("select * from products where id = :productId")
-    ProductEntity loadProductSync(int productId);
+    @Query("select * from cards where id = :cardId")
+    CardEntity loadCardSync(int cardId);
 }

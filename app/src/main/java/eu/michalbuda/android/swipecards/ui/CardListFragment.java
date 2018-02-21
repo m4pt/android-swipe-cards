@@ -29,17 +29,17 @@ import android.view.ViewGroup;
 
 import eu.michalbuda.android.swipecards.R;
 import eu.michalbuda.android.swipecards.databinding.ListFragmentBinding;
-import eu.michalbuda.android.swipecards.db.entity.ProductEntity;
-import eu.michalbuda.android.swipecards.model.Product;
-import eu.michalbuda.android.swipecards.viewmodel.ProductListViewModel;
+import eu.michalbuda.android.swipecards.db.entity.CardEntity;
+import eu.michalbuda.android.swipecards.model.Card;
+import eu.michalbuda.android.swipecards.viewmodel.CardListViewModel;
 
 import java.util.List;
 
-public class ProductListFragment extends Fragment {
+public class CardListFragment extends Fragment {
 
-    public static final String TAG = "ProductListViewModel";
+    public static final String TAG = "CardListViewModel";
 
-    private ProductAdapter mProductAdapter;
+    private CardAdapter mCardAdapter;
 
     private ListFragmentBinding mBinding;
 
@@ -49,8 +49,8 @@ public class ProductListFragment extends Fragment {
             @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.list_fragment, container, false);
 
-        mProductAdapter = new ProductAdapter(mProductClickCallback);
-        mBinding.productsList.setAdapter(mProductAdapter);
+        mCardAdapter = new CardAdapter(mCardClickCallback);
+        mBinding.cardsList.setAdapter(mCardAdapter);
 
         return mBinding.getRoot();
     }
@@ -58,20 +58,20 @@ public class ProductListFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        final ProductListViewModel viewModel =
-                ViewModelProviders.of(this).get(ProductListViewModel.class);
+        final CardListViewModel viewModel =
+                ViewModelProviders.of(this).get(CardListViewModel.class);
 
         subscribeUi(viewModel);
     }
 
-    private void subscribeUi(ProductListViewModel viewModel) {
+    private void subscribeUi(CardListViewModel viewModel) {
         // Update the list when the data changes
-        viewModel.getProducts().observe(this, new Observer<List<ProductEntity>>() {
+        viewModel.getCards().observe(this, new Observer<List<CardEntity>>() {
             @Override
-            public void onChanged(@Nullable List<ProductEntity> myProducts) {
-                if (myProducts != null) {
+            public void onChanged(@Nullable List<CardEntity> myCards) {
+                if (myCards != null) {
                     mBinding.setIsLoading(false);
-                    mProductAdapter.setProductList(myProducts);
+                    mCardAdapter.setCardList(myCards);
                 } else {
                     mBinding.setIsLoading(true);
                 }
@@ -82,12 +82,12 @@ public class ProductListFragment extends Fragment {
         });
     }
 
-    private final ProductClickCallback mProductClickCallback = new ProductClickCallback() {
+    private final CardClickCallback mCardClickCallback = new CardClickCallback() {
         @Override
-        public void onClick(Product product) {
+        public void onClick(Card card) {
 
             if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
-                ((MainActivity) getActivity()).show(product);
+                ((MainActivity) getActivity()).show(card);
             }
         }
     };
