@@ -45,7 +45,7 @@ public class CardViewModel extends AndroidViewModel {
         super(application);
         mCardId = cardId;
 
-        mObservableCard = repository.loadCard(mCardId);
+        mObservableCard = repository.loadCardRandom();
     }
 
     public LiveData<CardEntity> getObservableCard() {

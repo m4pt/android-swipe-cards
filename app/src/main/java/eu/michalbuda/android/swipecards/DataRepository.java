@@ -2,11 +2,14 @@ package eu.michalbuda.android.swipecards;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
+import android.util.Log;
 
 import eu.michalbuda.android.swipecards.db.AppDatabase;
 import eu.michalbuda.android.swipecards.db.entity.CardEntity;
 
 import java.util.List;
+
+import static eu.michalbuda.android.swipecards.ui.CardListFragment.TAG;
 
 /**
  * Repository handling the work with cards.
@@ -50,6 +53,19 @@ public class DataRepository {
 
     public LiveData<CardEntity> loadCard(final int cardId) {
         return mDatabase.cardDao().loadCard(cardId);
+    }
+
+    public int rowCount(){
+        return mObservableCards.getValue().size();
+    }
+
+    public int randomRow(){
+        return (int) (Math.random() * rowCount());
+    }
+
+    public LiveData<CardEntity> loadCardRandom(){
+        Log.d(TAG, "loadCardRandom: ");
+        return mDatabase.cardDao().loadCardWithOffset(randomRow());
     }
 
 }

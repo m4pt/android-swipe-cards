@@ -31,6 +31,9 @@ public interface CardDao {
     @Query("SELECT * FROM cards")
     LiveData<List<CardEntity>> loadAllCards();
 
+    @Query("SELECT * FROM cards LIMIT 1 OFFSET :offset")
+    LiveData<CardEntity> loadCardWithOffset(int offset);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<CardEntity> cards);
 
