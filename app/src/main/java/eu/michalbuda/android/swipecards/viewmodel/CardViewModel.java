@@ -27,9 +27,7 @@ import android.support.annotation.NonNull;
 import eu.michalbuda.android.swipecards.SwipeCardsApp;
 import eu.michalbuda.android.swipecards.DataRepository;
 import eu.michalbuda.android.swipecards.db.entity.CardEntity;
-import eu.michalbuda.android.swipecards.model.Card;
 
-import java.util.List;
 
 public class CardViewModel extends AndroidViewModel {
 
@@ -37,13 +35,8 @@ public class CardViewModel extends AndroidViewModel {
 
     public ObservableField<CardEntity> card = new ObservableField<>();
 
-    private final int mCardId;
-
-
-    public CardViewModel(@NonNull Application application, DataRepository repository,
-            final int cardId) {
+    public CardViewModel(@NonNull Application application, DataRepository repository) {
         super(application);
-        mCardId = cardId;
 
         mObservableCard = repository.loadCardRandom();
     }
@@ -67,20 +60,26 @@ public class CardViewModel extends AndroidViewModel {
         @NonNull
         private final Application mApplication;
 
-        private final int mCardId;
-
         private final DataRepository mRepository;
+
+/*        private final int mCardId;
 
         public Factory(@NonNull Application application, int cardId) {
             mApplication = application;
             mCardId = cardId;
+            mRepository = ((SwipeCardsApp) application).getRepository();
+        }*/
+
+        public Factory(@NonNull Application application) {
+            mApplication = application;
             mRepository = ((SwipeCardsApp) application).getRepository();
         }
 
         @Override
         public <T extends ViewModel> T create(Class<T> modelClass) {
             //noinspection unchecked
-            return (T) new CardViewModel(mApplication, mRepository, mCardId);
+            //return (T) new CardViewModel(mApplication, mRepository, mCardId);
+            return (T) new CardViewModel(mApplication, mRepository);
         }
     }
 }

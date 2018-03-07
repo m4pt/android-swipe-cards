@@ -47,6 +47,9 @@ public class CardListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
+
+        ((MainActivity) getActivity()).setOrientationPortrait();
+
         mBinding = DataBindingUtil.inflate(inflater, R.layout.list_fragment, container, false);
 
         mCardAdapter = new CardAdapter(mCardClickCallback);
@@ -87,7 +90,7 @@ public class CardListFragment extends Fragment {
         public void onClick(Card card) {
 
             if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
-                ((MainActivity) getActivity()).show(card);
+                ((MainActivity) getActivity()).show();
             }
         }
     };

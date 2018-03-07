@@ -16,6 +16,7 @@
 
 package eu.michalbuda.android.swipecards.ui;
 
+import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
@@ -28,24 +29,29 @@ import android.view.ViewGroup;
 
 
 import eu.michalbuda.android.swipecards.R;
-import eu.michalbuda.android.swipecards.databinding.CardFragmentBinding;
+import eu.michalbuda.android.swipecards.databinding.CardFragmentGameBinding;
 import eu.michalbuda.android.swipecards.db.entity.CardEntity;
+import eu.michalbuda.android.swipecards.model.Card;
 import eu.michalbuda.android.swipecards.viewmodel.CardViewModel;
 
 
 public class CardFragment extends Fragment {
 
-    private static final String KEY_CARD_ID = "card_id";
+    //private static final String KEY_CARD_ID = "card_id";
 
-    private CardFragmentBinding mBinding;
-
+    private CardFragmentGameBinding mBinding;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
+
+        ((MainActivity) getActivity()).setOrientationLandscape();
+
         // Inflate this data binding layout
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.card_fragment, container, false);
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.card_fragment_game, container, false);
+
+        mBinding.cardItemGame.setCallback(mCardClickCallback);
 
         return mBinding.getRoot();
     }
@@ -55,7 +61,7 @@ public class CardFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         CardViewModel.Factory factory = new CardViewModel.Factory(
-                getActivity().getApplication(), getArguments().getInt(KEY_CARD_ID));
+                getActivity().getApplication());
 
         final CardViewModel model = ViewModelProviders.of(this, factory)
                 .get(CardViewModel.class);
@@ -78,7 +84,24 @@ public class CardFragment extends Fragment {
 
     }
 
-    /** Creates card fragment for specific card ID */
+    private final CardClickCallback mCardClickCallback = new CardClickCallback() {
+        @Override
+        public void onClick(Card card) {
+
+            if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
+                ((MainActivity) getActivity()).show();
+            }
+        }
+    };
+
+    /** Creates card fragment */
+    public static CardFragment forCard() {
+        CardFragment fragment = new CardFragment();
+        return fragment;
+    }
+
+/*
+
     public static CardFragment forCard(int cardId) {
         CardFragment fragment = new CardFragment();
         Bundle args = new Bundle();
@@ -86,4 +109,5 @@ public class CardFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+*/
 }

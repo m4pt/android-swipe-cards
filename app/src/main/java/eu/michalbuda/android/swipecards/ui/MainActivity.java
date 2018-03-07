@@ -16,12 +16,12 @@
 
 package eu.michalbuda.android.swipecards.ui;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import eu.michalbuda.android.swipecards.R;
-import eu.michalbuda.android.swipecards.model.Card;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -38,15 +38,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /** Shows the card detail fragment */
-    public void show(Card card) {
+    /** Shows random card detail fragment */
+    public void show() {
 
-        CardFragment cardFragment = CardFragment.forCard(card.getId());
+        CardFragment cardFragment = CardFragment.forCard();
 
         getSupportFragmentManager()
                 .beginTransaction()
                 .addToBackStack("card")
                 .replace(R.id.fragment_container,
                         cardFragment, null).commit();
+    }
+
+    public void setOrientationLandscape(){
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    }
+
+    public void setOrientationPortrait(){
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 }
