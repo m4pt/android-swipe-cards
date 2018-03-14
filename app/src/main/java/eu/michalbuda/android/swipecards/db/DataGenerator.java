@@ -17,6 +17,7 @@
 package eu.michalbuda.android.swipecards.db;
 
 import eu.michalbuda.android.swipecards.db.entity.CardEntity;
+import eu.michalbuda.android.swipecards.db.entity.CategoryEntity;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,21 +35,39 @@ public class DataGenerator {
     private static final String[] SECOND = new String[]{
             "Malpa", "Kurczak", "Cos tam", "Okular"};
 
+    private static final String[] FIRSTCAT = new String[]{
+            "First", "Second", "Third", "Fourth", "Fifth"};
+    private static final String[] SECONDCAT = new String[]{
+            "Category"};
+
 
 
     public static List<CardEntity> generateCards() {
         /* TODO */
         List<CardEntity> cards = new ArrayList<>(FIRST.length * SECOND.length);
-        Random rnd = new Random();
         for (int i = 0; i < FIRST.length; i++) {
             for (int j = 0; j < SECOND.length; j++) {
                 CardEntity card = new CardEntity();
                 card.setName(FIRST[i] + " " + SECOND[j]);
-                card.setGuessed(0);
+                //card.setCategory( (int) ((FIRSTCAT.length * SECONDCAT.length) * Math.random() + 1));
+                card.setCategory(1);
                 cards.add(card);
             }
         }
 
         return cards;
+    }
+
+    public static List<CategoryEntity> generateCategories() {
+        /* TODO */
+        List<CategoryEntity> cats = new ArrayList<>(FIRSTCAT.length * SECONDCAT.length);
+        for (int i = 0; i < FIRSTCAT.length; i++) {
+            for (int j = 0; j < SECONDCAT.length; j++) {
+                CategoryEntity cat = new CategoryEntity();
+                cat.setName(FIRSTCAT[i] + " . " + SECONDCAT[j]);
+                cats.add(cat);
+            }
+        }
+        return cats;
     }
 }

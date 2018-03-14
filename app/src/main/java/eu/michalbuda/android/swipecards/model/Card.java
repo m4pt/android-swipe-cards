@@ -20,4 +20,5 @@ public interface Card {
     int getId();
     String getName();
     int getGuessed(); // 0 - no views by user, 1 - guessed, 0 - not guessed
+    int getCategory();
 }

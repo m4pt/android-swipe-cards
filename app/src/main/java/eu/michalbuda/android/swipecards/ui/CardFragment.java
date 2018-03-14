@@ -23,21 +23,28 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 
+import java.util.List;
+
 import eu.michalbuda.android.swipecards.R;
 import eu.michalbuda.android.swipecards.databinding.CardFragmentGameBinding;
 import eu.michalbuda.android.swipecards.db.entity.CardEntity;
 import eu.michalbuda.android.swipecards.model.Card;
+import eu.michalbuda.android.swipecards.viewmodel.CardListViewModel;
 import eu.michalbuda.android.swipecards.viewmodel.CardViewModel;
+
+import static eu.michalbuda.android.swipecards.ui.CategoryListFragment.TAG;
 
 
 public class CardFragment extends Fragment {
 
     //private static final String KEY_CARD_ID = "card_id";
+    private static final String CATEGORY_ID = "category_id";
 
     private CardFragmentGameBinding mBinding;
 
@@ -60,8 +67,7 @@ public class CardFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        CardViewModel.Factory factory = new CardViewModel.Factory(
-                getActivity().getApplication());
+        CardViewModel.Factory factory = new CardViewModel.Factory(getActivity().getApplication(), getArguments().getInt(CATEGORY_ID));
 
         final CardViewModel model = ViewModelProviders.of(this, factory)
                 .get(CardViewModel.class);
@@ -84,12 +90,13 @@ public class CardFragment extends Fragment {
 
     }
 
+
     private final CardClickCallback mCardClickCallback = new CardClickCallback() {
         @Override
         public void onClick(Card card) {
 
             if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
-                ((MainActivity) getActivity()).show();
+                ((MainActivity) getActivity()).show(getArguments().getInt(CATEGORY_ID));
             }
         }
     };
@@ -97,6 +104,14 @@ public class CardFragment extends Fragment {
     /** Creates card fragment */
     public static CardFragment forCard() {
         CardFragment fragment = new CardFragment();
+        return fragment;
+    }
+
+    public static CardFragment forCard(int categoryId) {
+        CardFragment fragment = new CardFragment();
+        Bundle args = new Bundle();
+        args.putInt(CATEGORY_ID, categoryId);
+        fragment.setArguments(args);
         return fragment;
     }
 

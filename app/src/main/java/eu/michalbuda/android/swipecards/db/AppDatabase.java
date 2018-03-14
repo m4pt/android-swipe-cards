@@ -28,11 +28,13 @@ import android.support.annotation.VisibleForTesting;
 
 import eu.michalbuda.android.swipecards.AppExecutors;
 import eu.michalbuda.android.swipecards.db.dao.CardDao;
+import eu.michalbuda.android.swipecards.db.dao.CatsDao;
 import eu.michalbuda.android.swipecards.db.entity.CardEntity;
+import eu.michalbuda.android.swipecards.db.entity.CategoryEntity;
 
 import java.util.List;
 
-@Database(entities = {CardEntity.class}, version = 1)
+@Database(entities = {CardEntity.class, CategoryEntity.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase sInstance;
@@ -41,6 +43,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public static final String DATABASE_NAME = "swipe-cards-db";
 
     public abstract CardDao cardDao();
+
+    public abstract CatsDao catsDao();
 
     private final MutableLiveData<Boolean> mIsDatabaseCreated = new MutableLiveData<>();
 
@@ -74,13 +78,17 @@ public abstract class AppDatabase extends RoomDatabase {
                             // Generate the data for pre-population
                             AppDatabase database = AppDatabase.getInstance(appContext, executors);
                             List<CardEntity> cards = DataGenerator.generateCards();
+                            List<CategoryEntity> cats = DataGenerator.generateCategories();
 
-                            insertData(database, cards);
+                            insertCardData(database, cards);
+                            insertCategoryData(database, cats);
+
                             // notify that the database was created and it's ready to be used
                             database.setDatabaseCreated();
                         });
                     }
-                }).build();
+                }).fallbackToDestructiveMigration()
+                .build();
     }
 
     /**
@@ -96,9 +104,15 @@ public abstract class AppDatabase extends RoomDatabase {
         mIsDatabaseCreated.postValue(true);
     }
 
-    private static void insertData(final AppDatabase database, final List<CardEntity> cards) {
+    private static void insertCardData(final AppDatabase database, final List<CardEntity> cards) {
         database.runInTransaction(() -> {
             database.cardDao().insertAll(cards);
+        });
+    }
+
+    private static void insertCategoryData(final AppDatabase database, final List<CategoryEntity> cats) {
+        database.runInTransaction(() -> {
+            database.catsDao().insertAll(cats);
         });
     }
 

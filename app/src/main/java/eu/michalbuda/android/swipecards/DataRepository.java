@@ -6,10 +6,12 @@ import android.util.Log;
 
 import eu.michalbuda.android.swipecards.db.AppDatabase;
 import eu.michalbuda.android.swipecards.db.entity.CardEntity;
+import eu.michalbuda.android.swipecards.db.entity.CategoryEntity;
 
 import java.util.List;
 
-import static eu.michalbuda.android.swipecards.ui.CardListFragment.TAG;
+import static eu.michalbuda.android.swipecards.ui.CategoryListFragment.TAG;
+
 
 /**
  * Repository handling the work with cards.
@@ -20,17 +22,29 @@ public class DataRepository {
 
     private final AppDatabase mDatabase;
     private MediatorLiveData<List<CardEntity>> mObservableCards;
+    private MediatorLiveData<List<CategoryEntity>> mObservableCategories;
 
     private DataRepository(final AppDatabase database) {
+        Log.d(TAG, "DataRepository: constructor started");
         mDatabase = database;
         mObservableCards = new MediatorLiveData<>();
 
-        mObservableCards.addSource(mDatabase.cardDao().loadAllCards(),
-                cardEntities -> {
+        mObservableCards.addSource(mDatabase.cardDao().loadAllCards(), cardEntities -> {
+                    Log.d(TAG, "DataRepository: cardEntities");
                     if (mDatabase.getDatabaseCreated().getValue() != null) {
                         mObservableCards.postValue(cardEntities);
                     }
                 });
+
+        mObservableCategories = new MediatorLiveData<>();
+
+        mObservableCategories.addSource(mDatabase.catsDao().loadAllCats(), categoryEntities -> {
+            Log.d(TAG, "DataRepository: categoryEnities");
+            if(mDatabase.getDatabaseCreated().getValue() != null){
+                Log.d(TAG, "DataRepository: categoryEntities, getdb not null");
+                mObservableCategories.postValue(categoryEntities);
+            }
+        });
     }
 
     public static DataRepository getInstance(final AppDatabase database) {
@@ -51,8 +65,14 @@ public class DataRepository {
         return mObservableCards;
     }
 
+    public LiveData<List<CategoryEntity>> getCategories(){ return mObservableCategories;}
+
     public LiveData<CardEntity> loadCard(final int cardId) {
         return mDatabase.cardDao().loadCard(cardId);
+    }
+
+    public LiveData<CategoryEntity> loadCategory(final int catId){
+        return mDatabase.catsDao().loadCat(catId);
     }
 
     public int rowCount(){
@@ -64,8 +84,11 @@ public class DataRepository {
     }
 
     public LiveData<CardEntity> loadCardRandom(){
-        Log.d(TAG, "loadCardRandom: ");
         return mDatabase.cardDao().loadCardWithOffset(randomRow());
+    }
+
+    public LiveData<CardEntity> loadRandomCardFromGroup(int groupId){
+        return mDatabase.cardDao().loadRandomCardFromGroup(groupId, randomRow());
     }
 
 }

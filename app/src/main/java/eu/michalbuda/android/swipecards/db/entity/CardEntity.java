@@ -27,20 +27,13 @@ public class CardEntity implements Card {
     private int id;
     private String name;
     private int guessed; // 0 - no views by user, 1 - guessed, 2 - not guessed
+    private int category;
 
     public CardEntity() {
         this.guessed = 0;
+        this.category = 0;
     }
 
-    public CardEntity(String name) {
-        this.name = name;
-    }
-
-    public CardEntity(int id, String name, int guessed) {
-        this.id = id;
-        this.name = name;
-        this.guessed = guessed;
-    }
 
     @Override
     public int getId() {
@@ -55,6 +48,15 @@ public class CardEntity implements Card {
     @Override
     public int getGuessed() {
         return guessed;
+    }
+
+    @Override
+    public int getCategory() {
+        return 0;
+    }
+
+    public void setCategory(int category) {
+        this.category = category;
     }
 
     public void setId(int id) {

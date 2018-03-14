@@ -29,12 +29,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        // Add card list fragment if this is first creation
+        // Add category list fragment if this is first creation
         if (savedInstanceState == null) {
-            CardListFragment fragment = new CardListFragment();
+            CategoryListFragment fragment = new CategoryListFragment();
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, fragment, CardListFragment.TAG).commit();
+                    .add(R.id.fragment_container, fragment, CategoryListFragment.TAG).commit();
         }
     }
 
@@ -56,5 +56,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void setOrientationPortrait(){
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
+
+    public void show(int categoryId) {
+        CardFragment cardFragment = CardFragment.forCard(categoryId);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack("card")
+                .replace(R.id.fragment_container,
+                        cardFragment, null).commit();
     }
 }

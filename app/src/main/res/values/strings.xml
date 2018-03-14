@@ -19,4 +19,8 @@
     <string name="loading_cards">Loading cards...</string>
     <string name="cd_cards_list">Card list</string>
     <string name="cd_card_name">Name of the card</string>
+    <string name="cd_category_name">Name of the category</string>
+    <string name="loading_categories">Loading categories...</string>
+    <string name="cd_categories_list">Categories list</string>
+
 </resources>

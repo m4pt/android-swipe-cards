@@ -35,8 +35,12 @@ public class CardViewModel extends AndroidViewModel {
 
     public ObservableField<CardEntity> card = new ObservableField<>();
 
-    public CardViewModel(@NonNull Application application, DataRepository repository) {
+    private final int mCategoryId;
+
+    public CardViewModel(@NonNull Application application, DataRepository repository, final int categoryId) {
         super(application);
+
+        mCategoryId = categoryId;
 
         mObservableCard = repository.loadCardRandom();
     }
@@ -62,6 +66,8 @@ public class CardViewModel extends AndroidViewModel {
 
         private final DataRepository mRepository;
 
+        private final int mCategoryId;
+
 /*        private final int mCardId;
 
         public Factory(@NonNull Application application, int cardId) {
@@ -70,8 +76,9 @@ public class CardViewModel extends AndroidViewModel {
             mRepository = ((SwipeCardsApp) application).getRepository();
         }*/
 
-        public Factory(@NonNull Application application) {
+        public Factory(@NonNull Application application, int categoryId) {
             mApplication = application;
+            mCategoryId = categoryId;
             mRepository = ((SwipeCardsApp) application).getRepository();
         }
 
@@ -79,7 +86,7 @@ public class CardViewModel extends AndroidViewModel {
         public <T extends ViewModel> T create(Class<T> modelClass) {
             //noinspection unchecked
             //return (T) new CardViewModel(mApplication, mRepository, mCardId);
-            return (T) new CardViewModel(mApplication, mRepository);
+            return (T) new CardViewModel(mApplication, mRepository, mCategoryId);
         }
     }
 }

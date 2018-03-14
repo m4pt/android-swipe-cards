@@ -42,4 +42,8 @@ public interface CardDao {
 
     @Query("select * from cards where id = :cardId")
     CardEntity loadCardSync(int cardId);
+
+    @Query("select * from cards where category = :categoryId LIMIT 1 OFFSET :offset")  //OFFSET :offset
+    LiveData<CardEntity> loadRandomCardFromGroup(int categoryId, int offset);
+
 }
