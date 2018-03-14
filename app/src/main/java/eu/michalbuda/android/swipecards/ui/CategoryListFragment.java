@@ -49,6 +49,7 @@ public class CategoryListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         ((MainActivity) getActivity()).setOrientationPortrait();
+        //((MainActivity) getActivity()).hideStatusBar(false);
 
         mBinding = DataBindingUtil.inflate(inflater, R.layout.list_fragment, container, false);
 

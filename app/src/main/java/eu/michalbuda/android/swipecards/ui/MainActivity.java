@@ -20,6 +20,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import eu.michalbuda.android.swipecards.R;
 
@@ -56,6 +57,27 @@ public class MainActivity extends AppCompatActivity {
 
     public void setOrientationPortrait(){
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
+
+    public void hideStatusBar(boolean hide){
+        View decorView = getWindow().getDecorView();
+
+        // Remember that you should never show the action bar if the
+        // status bar is hidden, so hide that too if necessary.
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        if(hide){
+            // Hide the status bar.
+            int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+            decorView.setSystemUiVisibility(uiOptions);
+
+            actionBar.hide();
+        } else {
+            // Show the status bar.
+            int uiOptions = View.SYSTEM_UI_FLAG_VISIBLE;
+            decorView.setSystemUiVisibility(uiOptions);
+
+            //actionBar.show();
+        }
     }
 
     public void show(int categoryId) {

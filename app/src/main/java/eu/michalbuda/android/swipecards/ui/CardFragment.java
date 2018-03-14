@@ -54,6 +54,7 @@ public class CardFragment extends Fragment {
             @Nullable Bundle savedInstanceState) {
 
         ((MainActivity) getActivity()).setOrientationLandscape();
+        ((MainActivity) getActivity()).hideStatusBar(true);
 
         // Inflate this data binding layout
         mBinding = DataBindingUtil.inflate(inflater, R.layout.card_fragment_game, container, false);
