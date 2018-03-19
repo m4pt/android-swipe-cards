@@ -25,6 +25,9 @@ import android.view.View;
 import eu.michalbuda.android.swipecards.R;
 
 public class MainActivity extends AppCompatActivity {
+
+    private CategoryListFragment categoryListFragment;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,10 +35,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Add category list fragment if this is first creation
         if (savedInstanceState == null) {
-            CategoryListFragment fragment = new CategoryListFragment();
+            categoryListFragment = new CategoryListFragment();
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, fragment, CategoryListFragment.TAG).commit();
+                    .add(R.id.fragment_container, categoryListFragment, CategoryListFragment.TAG).commit();
         }
     }
 
@@ -80,12 +83,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        categoryListFragment = new CategoryListFragment();
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, categoryListFragment, null)
+                .commit();
+    }
+
     public void show(int categoryId) {
         CardFragment cardFragment = CardFragment.forCard(categoryId);
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .addToBackStack("card")
                 .replace(R.id.fragment_container,
                         cardFragment, null).commit();
     }
