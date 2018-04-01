@@ -16,29 +16,20 @@
 
 package eu.michalbuda.android.swipecards.ui;
 
-import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
-import java.util.List;
-
 import eu.michalbuda.android.swipecards.R;
 import eu.michalbuda.android.swipecards.databinding.CardFragmentGameBinding;
 import eu.michalbuda.android.swipecards.db.entity.CardEntity;
-import eu.michalbuda.android.swipecards.model.Card;
-import eu.michalbuda.android.swipecards.viewmodel.CardListViewModel;
 import eu.michalbuda.android.swipecards.viewmodel.CardViewModel;
-
-import static eu.michalbuda.android.swipecards.ui.CategoryListFragment.TAG;
 
 
 public class CardFragment extends Fragment {
@@ -59,7 +50,7 @@ public class CardFragment extends Fragment {
         // Inflate this data binding layout
         mBinding = DataBindingUtil.inflate(inflater, R.layout.card_fragment_game, container, false);
 
-        mBinding.cardItemGame.setCallback(mCardClickCallback);
+        //mBinding.cardItemGame.setCallback(mCardClickCallback);
 
         return mBinding.getRoot();
     }
@@ -92,21 +83,21 @@ public class CardFragment extends Fragment {
     }
 
 
-    private final CardClickCallback mCardClickCallback = new CardClickCallback() {
-        @Override
-        public void onClick(Card card) {
-
-            if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
-                ((MainActivity) getActivity()).show(getArguments().getInt(CATEGORY_ID));
-            }
-        }
-    };
+//    private final CardClickCallback mCardClickCallback = new CardClickCallback() {
+//        @Override
+//        public void onClick(Card card) {
+//
+//            if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
+//                ((MainActivity) getActivity()).show(getArguments().getInt(CATEGORY_ID));
+//            }
+//        }
+//    };
 
     /** Creates card fragment */
-    public static CardFragment forCard() {
-        CardFragment fragment = new CardFragment();
-        return fragment;
-    }
+//    public static CardFragment forCard() {
+//        CardFragment fragment = new CardFragment();
+//        return fragment;
+//    }
 
     public static CardFragment forCard(int categoryId) {
         CardFragment fragment = new CardFragment();

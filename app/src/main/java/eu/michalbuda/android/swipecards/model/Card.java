@@ -19,6 +19,6 @@ package eu.michalbuda.android.swipecards.model;
 public interface Card {
     int getId();
     String getName();
-    int getGuessed(); // 0 - no views by user, 1 - guessed, 0 - not guessed
+    int getGuessed(); // ..., -2 - not guessed twice, -1 - not guessed once, 0 - no views by user, 1 - guessed once, 2 - guessed twice, ...
     int getCategory();
 }

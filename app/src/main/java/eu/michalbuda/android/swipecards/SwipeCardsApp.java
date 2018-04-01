@@ -19,6 +19,7 @@ package eu.michalbuda.android.swipecards;
 import android.app.Application;
 
 import eu.michalbuda.android.swipecards.db.AppDatabase;
+import eu.michalbuda.android.swipecards.ui.MainActivity;
 
 /**
  * Android Application class. Used for accessing singletons.
@@ -41,4 +42,5 @@ public class SwipeCardsApp extends Application {
     public DataRepository getRepository() {
         return DataRepository.getInstance(getDatabase());
     }
+
 }

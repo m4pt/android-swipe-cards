@@ -52,7 +52,7 @@ public class CardEntity implements Card {
 
     @Override
     public int getCategory() {
-        return 0;
+        return category;
     }
 
     public void setCategory(int category) {

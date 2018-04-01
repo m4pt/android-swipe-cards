@@ -1,17 +1,15 @@
 package eu.michalbuda.android.swipecards.ui;
 
-import android.app.Application;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.app.Fragment;
 
 import java.util.List;
 
@@ -21,7 +19,6 @@ import eu.michalbuda.android.swipecards.db.entity.CardEntity;
 import eu.michalbuda.android.swipecards.db.entity.CategoryEntity;
 import eu.michalbuda.android.swipecards.model.Category;
 import eu.michalbuda.android.swipecards.viewmodel.CardListViewModel;
-import eu.michalbuda.android.swipecards.viewmodel.CardViewModel;
 import eu.michalbuda.android.swipecards.viewmodel.CategoryListViewModel;
 
 /**

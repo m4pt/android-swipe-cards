@@ -34,12 +34,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     public void setCategoryList(final List<? extends Category> categoryList){
         if(mCategoryList == null) {
-            Log.d(TAG, "setCategoryList: mCategoryList is null. setting mCategoryList = categoryList");
             mCategoryList = categoryList;
-            Log.d(TAG, "setCategoryList: " + mCategoryList.size() + "  " + mCategoryList.get(1).getName() + " id1: " + mCategoryList.get(1).getId());
             notifyItemRangeInserted(0, categoryList.size());
         } else {
-            Log.d(TAG, "setCategoryList: ");
             DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffUtil.Callback() {
                 @Override
                 public int getOldListSize() {

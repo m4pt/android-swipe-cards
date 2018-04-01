@@ -19,6 +19,9 @@ public interface CatsDao {
     @Query("SELECT * FROM categories")
     LiveData<List<CategoryEntity>> loadAllCats();
 
+    @Query("SELECT * FROM categories where id IN (SELECT DISTINCT category from cards)")
+    LiveData<List<CategoryEntity>> loadNotEmptyCats();
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<CategoryEntity> cats);
 

@@ -38,7 +38,7 @@ public class DataRepository {
 
         mObservableCategories = new MediatorLiveData<>();
 
-        mObservableCategories.addSource(mDatabase.catsDao().loadAllCats(), categoryEntities -> {
+        mObservableCategories.addSource(mDatabase.catsDao().loadNotEmptyCats(), categoryEntities -> {
             Log.d(TAG, "DataRepository: categoryEnities");
             if(mDatabase.getDatabaseCreated().getValue() != null){
                 Log.d(TAG, "DataRepository: categoryEntities, getdb not null");
@@ -87,8 +87,8 @@ public class DataRepository {
         return mDatabase.cardDao().loadCardWithOffset(randomRow());
     }
 
-    public LiveData<CardEntity> loadRandomCardFromGroup(int groupId){
-        return mDatabase.cardDao().loadRandomCardFromGroup(groupId, randomRow());
+    public LiveData<CardEntity> loadCardRandomFromGroup(int categoryId){
+        return mDatabase.cardDao().loadCardRandomFromGroup(categoryId, randomRow());
     }
 
 }
