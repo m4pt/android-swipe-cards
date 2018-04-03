@@ -36,7 +36,7 @@ public class CategoryListFragment extends Fragment {
         public void onClick(Category category) {
             if(getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)){
 
-                ((MainActivity)getActivity()).show(category.getId());
+                ((MainActivity)getActivity()).startGame(category.getId());
             }
         }
     };

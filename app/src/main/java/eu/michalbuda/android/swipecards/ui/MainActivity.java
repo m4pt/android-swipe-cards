@@ -1,19 +1,3 @@
-/*
- * Copyright 2017, The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package eu.michalbuda.android.swipecards.ui;
 
 import android.content.pm.ActivityInfo;
@@ -30,8 +14,8 @@ import eu.michalbuda.android.swipecards.R;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
-    private static CategoryListFragment categoryListFragment;
     protected static Game game;
+    private static CategoryListFragment categoryListFragment;
     private static CountDownTimer countDownTimer;
     private static CardFragment cardFragment;
     private static android.support.v4.app.FragmentManager fragmentManager;
@@ -53,35 +37,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void setOrientationLandscape(){
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-    }
-
-    public void setOrientationPortrait(){
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-    }
-
-    public void hideStatusBar(boolean hide){
-        View decorView = getWindow().getDecorView();
-
-        // Remember that you should never show the action bar if the
-        // status bar is hidden, so hide that too if necessary.
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        if(hide){
-            // Hide the status bar.
-            int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-            decorView.setSystemUiVisibility(uiOptions);
-
-            actionBar.hide();
-        } else {
-            // Show the status bar.
-            int uiOptions = View.SYSTEM_UI_FLAG_VISIBLE;
-            decorView.setSystemUiVisibility(uiOptions);
-
-            //actionBar.show();
-        }
-    }
-
     @Override
     public void onBackPressed() {
         // TODO: 2018-03-20 exit from app on double backpressed
@@ -98,7 +53,36 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public void show(int categoryId) {
+    public void setOrientationLandscape() {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    }
+
+    public void setOrientationPortrait() {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
+
+    public void hideStatusBar(boolean hide) {
+        View decorView = getWindow().getDecorView();
+
+        // Remember that you should never show the action bar if the
+        // status bar is hidden, so hide that too if necessary.
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        if (hide) {
+            // Hide the status bar.
+            int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+            decorView.setSystemUiVisibility(uiOptions);
+
+            actionBar.hide();
+        } else {
+            // Show the status bar.
+            int uiOptions = View.SYSTEM_UI_FLAG_VISIBLE;
+            decorView.setSystemUiVisibility(uiOptions);
+
+            //actionBar.show();
+        }
+    }
+
+    private void show(int categoryId) {
 
         cardFragment = CardFragment.forCard(categoryId);
 
@@ -109,34 +93,37 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public void userAnswered(boolean guessed){
+    public void userAnswered(boolean guessed) {
         // TODO: 2018-03-21
         stopTimer();
         game.setAnswer(guessed);
         nextRound();
     }
 
-
-    public void nextRound(){
+    public void nextRound() {
         stopTimer();
+
+        // TODO: 2018-04-03 next round view (few seconds for animation and next round starts)
+
         game.nextRound();
 
-        if(!game.isGameOver()){
+        if (!game.isGameOver()) {
             show(game.getCategoryId());
             startTimer();
         } else {
             // TODO: 2018-03-21 game over fragment
             Log.d(TAG, "nextRound: no next round - game is over");
+            gameOver();
         }
 
     }
 
-
-    public void timeOutInterruption(){
-        nextRound();
+    private void gameOver() {
+        // TODO: 2018-04-03     game result/statistics view
+        onBackPressed();
     }
 
-    public void startGame(int categoryId){
+    public void startGame(int categoryId) {
 
         Log.d(TAG, "startGame: ");
 
@@ -155,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void cancelGame(){
+    public void cancelGame() {
         Log.d(TAG, "stopGame: ");
 
         game = null;
@@ -166,25 +153,33 @@ public class MainActivity extends AppCompatActivity {
         // TODO: 2018-03-21
     }
 
-    private void startTimer(){
+    private void startTimer() {
 
-        countDownTimer = new CountDownTimer(game.ROUND_TIME_MILLIS, game.COUNT_INTERVAL_MILLIS) {
+        countDownTimer = new CountDownTimer(Game.ROUND_TIME_MILLIS, Game.COUNT_INTERVAL_MILLIS) {
 
             public void onTick(long millisUntilFinished) {
                 Log.d(TAG, "onTick: seconds remaining: " + millisUntilFinished / 1000);
+                // TODO: 2018-04-03 sound from remaining <5 seconds
             }
 
             public void onFinish() {
+
+                // TODO: 2018-04-03 end of round sound if time is over
+
                 Log.d(TAG, "onFinish: done!");
                 timeOutInterruption();
             }
         }.start();
     }
 
-    private void stopTimer(){
-        if(countDownTimer != null){
+    private void stopTimer() {
+        if (countDownTimer != null) {
             countDownTimer.cancel();
         }
+    }
+
+    public void timeOutInterruption() {
+        nextRound();
     }
 
 
